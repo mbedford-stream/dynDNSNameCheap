@@ -1,0 +1,7 @@
+{
+    "updateParams": {
+        "host": "ra",
+        "domain": "mgmt.network",
+        "password": "password"
+    }
+}
