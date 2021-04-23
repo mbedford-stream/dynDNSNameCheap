@@ -203,7 +203,7 @@ func main() {
 				"newIP":      "-",
 				"updateFQDN": fmt.Sprintf("%s.%s", confData.UpdateParams.Host, confData.UpdateParams.Domain),
 				"msg":        "Failed to retrieve current public IP"}
-			logErr := writeLog("updateLog.txt", "UPDATE", updateLogData)
+			logErr := writeLog("updateLog.txt", "FAIL", updateLogData)
 			if logErr != nil {
 				log.Println("could not add log entry :\n", logErr)
 			}
@@ -225,7 +225,7 @@ func main() {
 			"newIP":      currentIP,
 			"updateFQDN": fmt.Sprintf("%s.%s", confData.UpdateParams.Host, confData.UpdateParams.Domain),
 			"msg":        "Could not find existing DNS entry"}
-		logErr := writeLog("updateLog.txt", "UPDATE", updateLogData)
+		logErr := writeLog("updateLog.txt", "FAIL", updateLogData)
 		if logErr != nil {
 			log.Println("could not add log entry :\n", logErr)
 		}
@@ -249,7 +249,7 @@ func main() {
 					"oldIP":      currentDNS[0],
 					"newIP":      currentIP,
 					"updateFQDN": fmt.Sprintf("%s.%s", confData.UpdateParams.Host, confData.UpdateParams.Domain),
-					"msg":        ""}
+					"msg":        "DNS record updated"}
 				logErr := writeLog("updateLog.txt", "UPDATE", updateLogData)
 				if logErr != nil {
 					log.Println("could not add log entry :\n", logErr)
