@@ -14,5 +14,5 @@ When running the script, "-c filename.ext" is needed to provide relevant info an
         "debug": false  
     }  
 }  
-
+```
 The fields should be self explanatory. "log" will create a updateLog.txt file with the result of any time the script is run and "debug" prints to the terminal as things happen so you can keep track of the variables being checked in case things aren't working as you expect.  
