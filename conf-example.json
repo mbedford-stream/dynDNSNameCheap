@@ -2,6 +2,8 @@
     "updateParams": {
         "host": "ra",
         "domain": "mgmt.network",
-        "password": "password"
+        "password": "example-pass",
+        "log": true,
+        "debug": false
     }
 }
