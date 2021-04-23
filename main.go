@@ -12,8 +12,6 @@ import (
 	"net/http"
 	"os"
 	"strings"
-
-	"github.com/mbedford-stream/mbgofuncs/mbfile"
 )
 
 type jsonConfig struct {
@@ -47,6 +45,32 @@ type xmlResponse struct {
 	} `xml:"responses"`
 	Done  string `xml:"Done"`
 	Debug string `xml:"debug"`
+}
+
+func FileExists(fileName string) bool {
+	if _, err := os.Stat(fileName); err != nil {
+		if os.IsNotExist(err) {
+			return false
+		}
+	}
+	return true
+}
+
+// FileIsADirectory - tests a file
+func FileIsADirectory(file string) bool {
+	if stat, err := os.Stat(file); err == nil && stat.IsDir() {
+		// path is a directory
+		return true
+	}
+	return false
+}
+
+// FileExistsAndIsNotADirectory - tests a file
+func FileExistsAndIsNotADirectory(file string) bool {
+	if FileExists(file) && !FileIsADirectory(file) {
+		return true
+	}
+	return false
 }
 
 func myIP(ipURL string) (string, error) {
@@ -117,7 +141,7 @@ func updateSend(hostUpdate string, domainUpdate string, passwordUpdate string, i
 }
 
 func readConfig(confFile string) (jsonConfig, error) {
-	if !mbfile.FileExistsAndIsNotADirectory(confFile) {
+	if !FileExistsAndIsNotADirectory(confFile) {
 		log.Fatalf("Cannot find config file (%s)", confFile)
 	}
 
