@@ -242,8 +242,8 @@ func main() {
 				"oldIP":      currentDNS[0],
 				"newIP":      currentIP,
 				"updateFQDN": fmt.Sprintf("%s.%s", confData.UpdateParams.Host, confData.UpdateParams.Domain),
-				"msg":        ""}
-			logErr := writeLog("updateLog.txt", "UPDATE", updateLogData)
+				"msg":        "DNS and current IP match so no update necessary"}
+			logErr := writeLog("updateLog.txt", "PASS", updateLogData)
 			if logErr != nil {
 				log.Println("could not add log entry :\n", logErr)
 			}
