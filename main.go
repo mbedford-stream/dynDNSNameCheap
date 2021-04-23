@@ -238,7 +238,20 @@ func main() {
 	if currentDNS[0] != currentIP {
 		updateErr := updateSend(confData.UpdateParams.Host, confData.UpdateParams.Domain, confData.UpdateParams.Password, currentIP)
 		if updateErr != nil {
-			fmt.Println(updateErr)
+			if confData.UpdateParams.Debug {
+				log.Printf("%s", updateErr)
+			}
+			if confData.UpdateParams.Log {
+				updateLogData := map[string]string{
+					"oldIP":      currentDNS[0],
+					"newIP":      currentIP,
+					"updateFQDN": fmt.Sprintf("%s.%s", confData.UpdateParams.Host, confData.UpdateParams.Domain),
+					"msg":        fmt.Sprintf("%s", updateErr)}
+				logErr := writeLog("updateLog.txt", "FAIL", updateLogData)
+				if logErr != nil {
+					log.Println("could not add log entry :\n", logErr)
+				}
+			}
 		} else {
 			if confData.UpdateParams.Debug {
 				log.Printf("Update Successful\n\t%s\n\t%s\n\n", confData.UpdateParams.Host+"."+confData.UpdateParams.Domain, currentIP)
