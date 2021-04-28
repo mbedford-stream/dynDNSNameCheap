@@ -5,7 +5,8 @@ A very simple script to replace an even more simple python script I wrote years 
 # config file  
 When running the script, "-c filename.ext" is needed to provide relevant info and should be in the following format:  
 
-```{  
+```
+{  
     "updateParams": {  
         "host": "test",  
         "domain": "mgmt.network",  

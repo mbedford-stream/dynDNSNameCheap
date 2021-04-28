@@ -183,6 +183,11 @@ func main() {
 	flag.StringVar(&confFile, "c", "none", "Specify Location of a config file for auth info and email recipients.")
 	flag.Parse()
 
+	if confFile == "none" {
+		flag.Usage()
+		os.Exit(1)
+	}
+
 	confData, confErr := readConfig(confFile)
 	if confErr != nil {
 		log.Fatal(confErr)
