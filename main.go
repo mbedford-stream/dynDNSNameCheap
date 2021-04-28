@@ -193,6 +193,10 @@ func main() {
 		log.Fatal(confErr)
 	}
 
+	if confData.UpdateParams.Log && confData.UpdateParams.LogLocation == "" {
+		log.Fatal("If you want to log, I need you to define a location")
+	}
+
 	if confData.UpdateParams.Debug {
 		log.Printf("Updating Namecheap Dyn DNS for: %s.%s\n", confData.UpdateParams.Host, confData.UpdateParams.Domain)
 	}
