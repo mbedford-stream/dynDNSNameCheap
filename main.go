@@ -16,11 +16,12 @@ import (
 
 type jsonConfig struct {
 	UpdateParams struct {
-		Domain   string `json:"domain"`
-		Host     string `json:"host"`
-		Password string `json:"password"`
-		Log      bool   `json:"log"`
-		Debug    bool   `json:"debug"`
+		Domain      string `json:"domain"`
+		Host        string `json:"host"`
+		Password    string `json:"password"`
+		Log         bool   `json:"log"`
+		LogLocation string `json:"loglocation"`
+		Debug       bool   `json:"debug"`
 	} `json:"updateParams"`
 }
 
@@ -207,6 +208,7 @@ func main() {
 			if logErr != nil {
 				log.Println("could not add log entry :\n", logErr)
 			}
+			os.Exit(0)
 		}
 	}
 
