@@ -197,8 +197,22 @@ func main() {
 		log.Fatal("If you want to log, I need you to define a location")
 	}
 
+	var logDir string = ""
+
+	lastDirChar := confData.UpdateParams.LogLocation[len(confData.UpdateParams.LogLocation)-1:]
+	if lastDirChar != "/" {
+		logDir = fmt.Sprintf("%s/", confData.UpdateParams.LogLocation)
+	} else {
+		logDir = confData.UpdateParams.LogLocation
+	}
+
+	logFile := fmt.Sprintf("%s%s", logDir, "updateLog.txt")
+
 	if confData.UpdateParams.Debug {
 		log.Printf("Updating Namecheap Dyn DNS for: %s.%s\n", confData.UpdateParams.Host, confData.UpdateParams.Domain)
+		if confData.UpdateParams.Log {
+			log.Printf("Saving log to %s", logFile)
+		}
 	}
 
 	currentIP, err := myIP("http://icanhazip.com/")
@@ -213,7 +227,7 @@ func main() {
 				"newIP":      "-",
 				"updateFQDN": fmt.Sprintf("%s.%s", confData.UpdateParams.Host, confData.UpdateParams.Domain),
 				"msg":        "Failed to retrieve current public IP"}
-			logErr := writeLog("updateLog.txt", "FAIL", updateLogData)
+			logErr := writeLog(logFile, "FAIL", updateLogData)
 			if logErr != nil {
 				log.Println("could not add log entry :\n", logErr)
 			}
@@ -236,7 +250,7 @@ func main() {
 			"newIP":      currentIP,
 			"updateFQDN": fmt.Sprintf("%s.%s", confData.UpdateParams.Host, confData.UpdateParams.Domain),
 			"msg":        "Could not find existing DNS entry"}
-		logErr := writeLog("updateLog.txt", "FAIL", updateLogData)
+		logErr := writeLog(logFile, "FAIL", updateLogData)
 		if logErr != nil {
 			log.Println("could not add log entry :\n", logErr)
 		}
@@ -258,7 +272,7 @@ func main() {
 					"newIP":      currentIP,
 					"updateFQDN": fmt.Sprintf("%s.%s", confData.UpdateParams.Host, confData.UpdateParams.Domain),
 					"msg":        fmt.Sprintf("%s", updateErr)}
-				logErr := writeLog("updateLog.txt", "FAIL", updateLogData)
+				logErr := writeLog(logFile, "FAIL", updateLogData)
 				if logErr != nil {
 					log.Println("could not add log entry :\n", logErr)
 				}
@@ -274,7 +288,7 @@ func main() {
 					"newIP":      currentIP,
 					"updateFQDN": fmt.Sprintf("%s.%s", confData.UpdateParams.Host, confData.UpdateParams.Domain),
 					"msg":        "DNS record updated"}
-				logErr := writeLog("updateLog.txt", "UPDATE", updateLogData)
+				logErr := writeLog(logFile, "UPDATE", updateLogData)
 				if logErr != nil {
 					log.Println("could not add log entry :\n", logErr)
 				}
@@ -291,7 +305,7 @@ func main() {
 				"newIP":      currentIP,
 				"updateFQDN": fmt.Sprintf("%s.%s", confData.UpdateParams.Host, confData.UpdateParams.Domain),
 				"msg":        "DNS and current IP match so no update necessary"}
-			logErr := writeLog("updateLog.txt", "PASS", updateLogData)
+			logErr := writeLog(logFile, "PASS", updateLogData)
 			if logErr != nil {
 				log.Println("could not add log entry :\n", logErr)
 			}
